@@ -12,5 +12,5 @@ show short manual:
 
 diff:
 	git diff : 		shows changes that are unstaged.
-	git diff --staged : 	shows changes that are staged.
+	git diff --staged : 	shows changes that are staged. [--cached and --staged are synonyms]
 	git diff --cached :	shows changes that are staged. [--cached and --staged are synonyms]
