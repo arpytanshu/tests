@@ -26,7 +26,7 @@ commit:
 rm:
 	git rm :	remove targetted file from working-dir, and stage this removal.
 			if the file was removed manually, this change will require `git rm` to be staged.
-
+	git rm --cached : 	keep file in working-dir, but remove it from staging area.
 
 revert:
 	git revert <comit-hash> : 	create a new commit that reverts the changes of the commit being targetted.
