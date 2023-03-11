@@ -1,4 +1,4 @@
-# tests
+#tests
 git-tests
 
 
@@ -21,3 +21,13 @@ commit:
 	git commit -a : automatically stage all files that are already tracked before doing the commit, 
 			skipping the `git add` part.
 			if a new file is added, it is not staged/indexed.
+
+
+rm:
+	git rm :	remove targetted file from working-dir, and stage this removal.
+			if the file was removed manually, this change will require `git rm` to be staged.
+
+
+revert:
+	git revert <comit-hash> : 	create a new commit that reverts the changes of the commit being targetted.
+
