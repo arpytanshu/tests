@@ -28,6 +28,11 @@ rm:
 			if the file was removed manually, this change will require `git rm` to be staged.
 	git rm --cached : 	keep file in working-dir, but remove it from staging area.
 
+
+log:
+	git log : 	lists the commits made in that repository in reverse chronological order
+	git log -p : 	shows the difference (the patch output) introduced in each commit.
+
 revert:
 	git revert <comit-hash> : 	create a new commit that reverts the changes of the commit being targetted.
 
