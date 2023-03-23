@@ -2,14 +2,14 @@ Setting up libtorch and building example-app from pytorch docs.
 
 Used this cmake file referenced from this blog: ```https://www.neuralception.com/settingupopencv/```
 
-# get libtorch zip
+### get libtorch zip
 ```
 wget https://download.pytorch.org/libtorch/cpu/libtorch-macos-1.13.0.zip
 unzip libtorch-macos-1.13.0.zip -d /opt/
 ```
 
 
-# CMakeLists.txt
+### CMakeLists.txt
 ```
 cmake_minimum_required(VERSION 3.0 FATAL_ERROR)
 project(example-app)
@@ -36,6 +36,7 @@ if (MSVC)
 endif (MSVC)
 ```
 
+### build commands
 ```
 mkdir build
 cd build
