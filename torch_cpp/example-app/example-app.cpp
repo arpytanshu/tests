@@ -28,16 +28,19 @@ int main() {
   auto net = std::make_shared<Net>();
 
   // Create a multi-threaded data loader for the MNIST dataset.
-  auto data_loader = torch::data::make_data_loader(
-      torch::data::datasets::MNIST("/Users/arpitanshulnu/Downloads/").map(
-          torch::data::transforms::Stack<>()),
-      /*batch_size=*/64);
+
+  auto dataset = torch::data::datasets::MNIST("/Users/arpitanshulnu/Downloads/").map(
+          torch::data::transforms::Stack<>());
+  auto data_loader = torch::data::make_data_loader(dataset, /*batch_size=*/64);
+
+  // std::cout << data_loader.size() << std::endl;
 
   // Instantiate an SGD optimization algorithm to update our Net's parameters.
   torch::optim::SGD optimizer(net->parameters(), /*lr=*/0.01);
 
   for (size_t epoch = 1; epoch <= 10; ++epoch) {
     size_t batch_index = 0;
+
     // Iterate the data loader to yield batches from the dataset.
     for (auto& batch : *data_loader) {
       // Reset gradients.
@@ -56,6 +59,8 @@ int main() {
                   << " | Loss: " << loss.item<float>() << std::endl;
         // Serialize your model periodically as a checkpoint.
         torch::save(net, "net.pt");
+      
+      
       }
     }
   }
