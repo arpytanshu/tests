@@ -1,4 +1,5 @@
 #include <torch/torch.h>
+#include <chrono>
 
 // Define a new Module.
 struct Net : torch::nn::Module {
@@ -31,12 +32,17 @@ int main() {
 
   auto dataset = torch::data::datasets::MNIST("/Users/arpitanshulnu/Downloads/").map(
           torch::data::transforms::Stack<>());
-  auto data_loader = torch::data::make_data_loader(dataset, /*batch_size=*/64);
-
-  // std::cout << data_loader.size() << std::endl;
+  auto data_loader = torch::data::make_data_loader(dataset, /*batch_size=*/256);
 
   // Instantiate an SGD optimization algorithm to update our Net's parameters.
-  torch::optim::SGD optimizer(net->parameters(), /*lr=*/0.01);
+  torch::optim::Adam optimizer(net->parameters(), /*lr=*/0.01);
+
+  // time_t start;
+  // time_t end;  
+  // start = time(NULL);
+  
+  std::chrono::steady_clock::time_point begin = std::chrono::steady_clock::now();
+
 
   for (size_t epoch = 1; epoch <= 10; ++epoch) {
     size_t batch_index = 0;
@@ -55,13 +61,18 @@ int main() {
       optimizer.step();
       // Output the loss and checkpoint every 100 batches.
       if (++batch_index % 100 == 0) {
-        std::cout << "Epoch: " << epoch << " | Batch: " << batch_index
-                  << " | Loss: " << loss.item<float>() << std::endl;
+        std::cout << "Epoch: " << epoch << " | Batch: " << batch_index << " " 
+        << " | Loss: " << loss.item<float>() << std::endl;
         // Serialize your model periodically as a checkpoint.
-        torch::save(net, "net.pt");
-      
-      
+        // torch::save(net, "net.pt");
       }
     }
   }
+  // end = time(NULL);
+  // double elapsed = difftime(end, start);
+  // std::cout << elapsed << " " << end << " " << start << std::endl;
+
+  std::chrono::steady_clock::time_point end = std::chrono::steady_clock::now();
+  std::cout << "elapsed = " << std::chrono::duration_cast<std::chrono::milliseconds> (end - begin).count() << "[ms]" << std::endl;
+
 }

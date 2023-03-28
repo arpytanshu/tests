@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 3.0 FATAL_ERROR)
 project(example-app)
 set(Torch_DIR /opt/libtorch/share/cmake/Torch)
+
 find_package(Torch REQUIRED)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${TORCH_CXX_FLAGS}")
 
