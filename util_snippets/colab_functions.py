@@ -88,10 +88,14 @@ def get_perturbration_plot(model, tokenizer, prompt, num_runs=10):
         return ''.join(prompt)
 
     def _get_embeddings(model, tokenizer, prompt_list):
-        extractor = pipeline('feature-extraction', model=model, tokenizer=tokenizer)
-        out = extractor(prompt_list)
-        embs = np.array([np.array(o).mean(axis=1).squeeze() for o in out])
-        return embs
+        embeddings = []
+        for p in prompt_list:
+            input_ids = torch.tensor(tok.encode(p)).to(torch.int)
+            with torch.no_grad():
+                out = model_fp32.forward(input_ids)
+            embs = out[0].mean(axis=0).cpu().numpy()
+            embeddings.append(embs)
+        return np.stack(embeddings)
 
     cos_sims = []
     pert_percs = np.linspace(0, 1, 20) 
@@ -108,7 +112,7 @@ def get_perturbration_plot(model, tokenizer, prompt, num_runs=10):
     avg_cos_sims = np.stack(cos_sims).mean(axis=0)
     plt.plot(pert_percs, avg_cos_sims)
 
-    return avg_cos_sims
+    return avg_cos_sims, pert_percs
 
 
 
@@ -139,21 +143,8 @@ del(model_int8)
 torch.cuda.empty_cache()
 get_stat()
 
-# %% perturbrations plot
-# ----------------- ----
 
 
-
-
-
-
-model_str = "cerebras/Cerebras-GPT-111M"
-tok = AutoTokenizer.from_pretrained(model_str)
-model_fp32 = AutoModel.from_pretrained(model_str, torch_dtype=torch.float32)
-
-
-prompt = "Once upon a time in a galaxy far away, there lived a clan of Mandalorians."
-pert_ = get_perturbration_plot(model_fp32, tok, prompt, num_runs=10)
 
 
 
