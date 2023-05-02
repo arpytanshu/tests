@@ -5,8 +5,15 @@ import torch
 import torch.nn.functional as F
 import argparse
 import numpy as np
+from torch.utils.cpp_extension import load
 
-import lltm_cpp
+# to directly import, do "python setup.py install from the extension."
+# import lltm_cpp
+
+# if want to proceed without installation, jit build and load
+lltm_cpp = load(name="lltm_cpp", sources=["lltm-extension/lltm.cpp"])
+# - OR -
+# lltm_cuda = load(name='lltm_cuda', sources=['lltm-extension-cuda/lltm_cuda.cpp', 'lltm-extension-cuda/lltm_cuda_kernel.cu'])
 
 class LLTMFunction(torch.autograd.Function):
     @staticmethod
@@ -136,3 +143,16 @@ Usage:
 python main.py --py --num_iter 10000 --batch_size 16 --input_size 32 --state_size 128
 python main.py --cpp --num_iter 10000 --batch_size 16 --input_size 32 --state_size 128
 '''
+
+
+
+#%%
+import torch
+
+from torch.utils.cpp_extension import load
+
+
+lltm_cuda = load(name='lltm_cuda', sources=['lltm-extension-cuda/lltm_cuda.cpp', 'lltm-extension-cuda/lltm_cuda_kernel.cu'])
+
+
+# %%
