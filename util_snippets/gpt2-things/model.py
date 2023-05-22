@@ -52,7 +52,7 @@ class GenericConfig:
         for k in d.keys():
             v = d[k]
             if type(v) == dict:
-                self.__dict__[k] = Config(config=v)
+                self.__dict__[k] = GenericConfig(config=v)
             else:
                 self.__dict__[k] = v
 
