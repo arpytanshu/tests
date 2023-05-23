@@ -212,6 +212,13 @@ from sklearn.datasets import make_moons, make_blobs
 
 X, y = make_moons(n_samples=100, noise=0.1)
 
+with open('data.txt', 'w') as f:
+    for i in range(len(X)):
+        f.write(f"{X[i][0]},{X[i][1]},{y[i]}\n")
+
+
+
+#%%
 y = y*2 - 1 # make y be -1 or 1
 # visualize in 2D
 plt.figure(figsize=(5,5))

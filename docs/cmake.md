@@ -139,4 +139,13 @@ then `target A` can only be built after `target B` is built successfullt.
                                                 |---------------------------------------------------------------|
     
     
-    
+### get variable from a commad + print variable + 
+```
+    execute_process(
+        COMMAND python -m pybind11 --cmakedir
+        OUTPUT_VARIABLE PYBIND11_PATH
+        OUTPUT_STRIP_TRAILING_WHITESPACE
+    )
+    message("Pybind11 Found at: ${PYBIND11_PATH}")
+    set(pybind11_DIR ${PYBIND11_PATH})
+```
