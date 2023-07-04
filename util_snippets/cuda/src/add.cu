@@ -14,15 +14,15 @@ void add(int n, float *x, float *y)
   for (int i = index; i < n; i += stride)
     if (i < n){
       y[i] = x[i] + y[i];
-    printf("id: %d \t \
+    // printf("id: %d \t \
     tId: (%d, %d, %d) \
     blockIds: (%d, %d, %d) \
     blockDims: (%d, %d, %d) \
     gridDims: (%d, %d, %d)\n", index, 
-    threadIdx.x, threadIdx.y, threadIdx.z, 
-    blockIdx.x, blockIdx.y, blockIdx.z, 
-    blockDim.x, blockDim.y, blockDim.z, 
-    gridDim.x, gridDim.y, gridDim.z);
+  //   threadIdx.x, threadIdx.y, threadIdx.z, 
+  //   blockIdx.x, blockIdx.y, blockIdx.z, 
+  //   blockDim.x, blockDim.y, blockDim.z, 
+  //   gridDim.x, gridDim.y, gridDim.z);
   }
 }
 
@@ -30,8 +30,8 @@ void add(int n, float *x, float *y)
 int main(int argc, char *argv[])
 {
 
-  int N = 18;
-  int blockSize = 5;
+  int N = 18000000;
+  int blockSize = 64;
 
   float *x, *y;
 
