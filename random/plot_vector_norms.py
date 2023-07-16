@@ -13,7 +13,7 @@ fig, axs = plt.subplots(3, 1, figsize=(8,24))
 c = ['r', 'g', 'b', 'c', 'm', 'y', 'k']*100
 for ax, norm_fn, name in zip(axs, 
                           [norm_vec_euclidean, norm_vec_manhattan, norm_vec_maximum__],
-                          ['euclidean', 'manhattan', 'maximum']):
+                          ['euclidean, L2', 'manhattan L1', 'maximum']):
     for ix in range(250):
         x = np.random.randint(-400, 400)/100;
         y = np.random.randint(-400, 400)/100;
@@ -30,3 +30,5 @@ for ax, norm_fn, name in zip(axs,
 
 
 
+
+#%%

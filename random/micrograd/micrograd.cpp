@@ -80,7 +80,7 @@ class Value{
             cout << "Value(" << this->data << ", grad=" << this->grad << ")" << endl;
         }
 
-        std::ostream& operator<< (std::ostream &out, AutoData const& data) {
+        friend std::ostream& operator<< (std::ostream &out, AutoData const& data) {
             out << data.getmpg() << ':';
             out << data.getcylinders() << ':';
             // and so on... 
