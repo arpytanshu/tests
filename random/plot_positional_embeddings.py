@@ -34,8 +34,8 @@ import torch
 import math
 import matplotlib.pyplot as plt
 
-L = seq_len = 24  # sequence length
-D = dim_model = 64 # embedding dimension
+L = seq_len = 64  # sequence length
+D = dim_model = 128 # embedding dimension
 x = torch.rand(1, L)
 
 PE = torch.zeros(L, D)
@@ -78,5 +78,56 @@ axs[4].set_xlabel('D (embedding dimension)')
 
 
 fig.tight_layout()
+
+# %%
+
+
+plt.figure(figsize=(12,5))
+plt.imshow(PE)
+plt.title('PE: sin(angle)/cos(angle)')
+plt.xlabel('D (embedding dimension)')
+plt.yticks(range(L), [f'token {i}' for i in range(L)])
+plt.xticks(range(D), [f'dim {i}' for i in range(D)], rotation=90)
+# for l in range(L):
+#     plt.axhline(l+0.5, c='w')
+
+# %%
+
+
+
+'''
+
+for any token, as the dimension index increases, the angles decays, i.e 
+the delta b/w 2 successive dimension index's angles keeps getting smaller.
+
+the max angle corresponding to any token, increases as it's position in the
+sequence increases.
+
+'''
+import numpy as np
+
+# pick some token_ids to visualize it's angles and pe values
+selected_token_ix = [1, 11, 21, 31, 41, 51] 
+
+sin_angles = angle[selected_token_ix, 1::2]
+
+max_angle = sin_angles.max()
+
+fig, axs = plt.subplots(len(selected_token_ix), 1, figsize=(24,20))
+
+
+X = np.linspace(0, max_angle, 1000)
+sinX = np.sin(X)
+cosX = np.cos(X)
+for ix in range(len(selected_token_ix)):
+    axs[ix].plot(X, sinX)
+    axs[ix].plot(X, cosX)
+    
+    axs[ix].axhline(0, c='k')
+    axs[ix].axvline(0, c='k')
+    axs[ix].scatter(sin_angles[ix], [0]*len(sin_angles[ix]), marker='|', c='r')
+    axs[ix].scatter(sin_angles[ix], torch.sin(sin_angles[ix]), marker='|', c='r')
+    axs[ix].scatter(sin_angles[ix], torch.cos(sin_angles[ix]), marker='|', c='r')
+
 
 # %%
