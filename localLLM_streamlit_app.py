@@ -8,16 +8,18 @@ from time import time
 from transformers import LlamaForCausalLM, LlamaTokenizer
 
 # globals
-MODEL_STRING = "meta-llama/Llama-2-7b-chat-hf"
+# MODEL_STRING = "meta-llama/Llama-2-7b-chat-hf"
+MODEL_STRING = "meta-llama/Llama-2-13b-chat-hf"
 DEVICE = torch.device("cuda:0")
-# DEVICE = torch.device("cpu")
+
 
 torch.set_num_threads(16)
 
 @st.cache_resource
 def get_model():
-    model = LlamaForCausalLM.from_pretrained(MODEL_STRING, torch_dtype=torch.bfloat16)
-    model = model.to(DEVICE)
+    # model = LlamaForCausalLM.from_pretrained(MODEL_STRING, torch_dtype=torch.bfloat16)
+    # model = model.to(DEVICE)
+    model = LlamaForCausalLM.from_pretrained(MODEL_STRING, load_in_8bit=True)
     model.eval()
     return model
 
@@ -55,7 +57,7 @@ def generate(prompt, gen_cfg, return_prompt = False):
             probs = torch.softmax(out.logits[:, -1, :].squeeze()/gen_cfg["temperature"], axis=0)
             out_token_id = torch.multinomial(probs, 1)[0].item()
             
-            stats['elapsed'].append(time() - tick)            
+            stats['elapsed'].append(time() - tick)
             
         if out_token_id == tokenizer.eos_token_id:
             break;
@@ -89,7 +91,7 @@ GEN_CFG['timeout_bool'] = st.sidebar.checkbox("Timeout", False)
 GEN_CFG['timeout_int'] = st.sidebar.number_input("Timeout (s)", 5, 100, 5, 1, "%d")
 
 
-prompt = st.text_input('Prompt:')
+prompt = st.text_area('Prompt:')
 generations, stats = generate(prompt, GEN_CFG)
 st.write(generations)
 st.write(f"{stats['avg_time_per_token']:.3f} s/token")
