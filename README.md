@@ -6,7 +6,10 @@ Just some code snippets to look back at.
     |-  
     |- README.md                    - this file
     |- localLLM_streamlit_app.py    - app for using LLMs locally.
-    |- finetuning_llm/              - drivers to test GA, GC, LoRA on LLMs
+    |- llm_finetuning/              - drivers to test GA, GC, LoRA on LLMs.
+    |- llm_quantization/            - drivers to quantize llms.
+    |- llm_evaluation/              - drivers to evaluate llms.
+        |- evaluate_mmlm_hf.py      - evaluate hf models on mmlm benchmark.
     |- customForward/               - code to visualize dist over tokens across intermediate LLM layers.
     |- plots/                       - random plots
     |- docs/  
