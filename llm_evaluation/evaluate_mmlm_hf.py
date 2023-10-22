@@ -83,14 +83,12 @@ categories = {
     "other (business, health, misc.)": ["other", "business", "health"],
 }
 
-
 def format_subject(subject):
     l = subject.split("_")
     s = ""
     for entry in l:
         s += " " + entry
     return s
-
 
 def format_example(df, idx, include_answer=True):
     prompt = df.iloc[idx, 0]
@@ -102,7 +100,6 @@ def format_example(df, idx, include_answer=True):
         prompt += " {}\n\n".format(df.iloc[idx, k + 1])
     return prompt
 
-
 def gen_prompt(train_df, subject, k=-1):
     prompt = "The following are multiple choice questions (with answers) about {}.\n\n".format(
         format_subject(subject)
@@ -112,7 +109,6 @@ def gen_prompt(train_df, subject, k=-1):
     for i in range(k):
         prompt += format_example(train_df, i)
     return prompt
-
 
 @torch.no_grad()
 def eval(args, subject, model, tokenizer, dev_df, test_df):
@@ -171,7 +167,6 @@ def eval(args, subject, model, tokenizer, dev_df, test_df):
     print("Average accuracy {:.3f} - {}".format(acc, subject))
 
     return cors, acc, all_probs
-
 
 def main(args):
     model = AutoModelForCausalLM.from_pretrained(
