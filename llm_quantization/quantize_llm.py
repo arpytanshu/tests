@@ -62,7 +62,7 @@ def quick_bench(model, prompt=None, max_length=1000, do_sample=False, temperatur
 
 
 
-PROMPT = "count from 1 to 20 in binary."
+PROMPT = "write a poetry about mermaids and GPUs"
 temp = 1.0
 
 print('Base Model::')
@@ -71,3 +71,5 @@ print('\n', '='*16)
 print('\n', '='*16, end='\n')
 print('Quantized model::')
 quick_bench(q_model, prompt=PROMPT, do_sample=False, temperature=temp);
+
+# %%
